@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 int main() {
     char buf[256];
@@ -7,6 +9,7 @@ int main() {
     char *words[10];
     int i;
     int len;
+    int n;
 
     fgets(buf,sizeof(buf)-1,stdin);
     len = strlen(buf);
@@ -24,8 +27,13 @@ int main() {
         }
     }
 
-    for (i = 0; i < count+1; i++) {
-        printf("%s\n",words[i]);
+    n = fork();
+    if (n == 0) { //child
+        printf("child");
+    }
+    else {
+        wait(NULL);
+        printf("parent");
     }
 
     return 0;
